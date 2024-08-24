@@ -38,7 +38,6 @@ class UsersSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'), // Replace with your desired password
                 'role' => $userData['role'],
-                'remember_token' => Str::random(10),
             ]);
         }
     }
