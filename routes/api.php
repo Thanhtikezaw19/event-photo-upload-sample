@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\PhotoController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,15 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class,'logout']);
+    Route::resource('events', EventController::class);
+
+    Route::post('events/{event}/photos', [PhotoController::class, 'store']);
+    Route::get('events/{event}/photos', [PhotoController::class, 'index']);
+
+    Route::get('/photos', [PhotoController::class, 'getAllPhotos']);
+    Route::patch('/photos/{photo}/approve', [PhotoController::class, 'approvePhoto']);
+    Route::patch('/photos/{photo}/reject', [PhotoController::class, 'rejectPhoto']);
+    Route::delete('photos/{photo}', [PhotoController::class, 'destroy'])->middleware('can:delete,photo');
 });
 
 
